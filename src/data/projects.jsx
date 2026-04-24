@@ -99,7 +99,7 @@ function MultiFlyDetail({ t }) {
 
         <div className="pro-block">
           <span className="pro-label">{t('Showreel 製作', 'Showreel Production')}</span>
-          <iframe className="pro-video-main" width="500px" height="500px" src="https://www.youtube-nocookie.com/embed/Mo8MS3R_JCs?si=kgoLMUNo5NChvjGz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe className="pro-video-main" width="960" height="540" src="https://www.youtube-nocookie.com/embed/Mo8MS3R_JCs?si=kgoLMUNo5NChvjGz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           
           <div className="pro-caption-box">
             <p>
@@ -308,7 +308,7 @@ function CarbonDetail({ t }) {
         </div>
         <div className="pro-block">
           <span className="pro-label">{t('捕碳高手', 'Carbon Capture')}</span>
-          <iframe className="pro-video-main" width="500" height="500" src="https://www.youtube.com/embed/zCKXEZnUw1k?si=uqRXxnYCgt2osAg6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe className="pro-video-main" width="960" height="540" src="https://www.youtube.com/embed/zCKXEZnUw1k?si=uqRXxnYCgt2osAg6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
       </div>
     </div>
