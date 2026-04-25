@@ -99,8 +99,20 @@ function MultiFlyDetail({ t }) {
 
         <div className="pro-block">
           <span className="pro-label">{t('Showreel 製作', 'Showreel Production')}</span>
-          <iframe className="pro-video-main" width="960" height="540" src="https://www.youtube-nocookie.com/embed/Mo8MS3R_JCs?si=kgoLMUNo5NChvjGz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <video
+            src="images/works/butterfly/Showreel.mp4"
+            controls
+            playsInline
+            className="pro-video-main"
+          >
+          {/* 優先讀取 WebM */}
+          <source src="images/works/butterfly/Showreel.webm" type="video/webm" />
           
+          {/* 如果不支援則讀取 MP4 */}
+          <source src="images/works/butterfly/Showreel.mp4" type="video/mp4" />
+          
+          您的瀏覽器不支援影片播放。
+          </video>
           <div className="pro-caption-box">
             <p>
               {t(
@@ -308,7 +320,19 @@ function CarbonDetail({ t }) {
         </div>
         <div className="pro-block">
           <span className="pro-label">{t('捕碳高手', 'Carbon Capture')}</span>
-          <iframe className="pro-video-main" width="960" height="540" src="https://www.youtube.com/embed/zCKXEZnUw1k?si=uqRXxnYCgt2osAg6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <video
+   
+            controls
+            style={{ width: '100%', borderRadius: '4px', marginBottom: '1rem' }}
+          >
+            {/* 優先讀取 WebM */}
+          <source src="/images/works/C/Cvideo.webm" type="video/webm" />
+          
+          {/* 如果不支援則讀取 MP4 */}
+          <source src="images/works/C/Cvideo.mp4" type="video/mp4" />
+          
+          您的瀏覽器不支援影片播放。
+          </video>
         </div>
       </div>
     </div>
