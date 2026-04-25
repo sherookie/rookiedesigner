@@ -100,7 +100,6 @@ function MultiFlyDetail({ t }) {
         <div className="pro-block">
           <span className="pro-label">{t('Showreel 製作', 'Showreel Production')}</span>
           <video
-            src="images/works/butterfly/Showreel.mp4"
             controls
             playsInline
             className="pro-video-main"
@@ -320,9 +319,11 @@ function CarbonDetail({ t }) {
         </div>
         <div className="pro-block">
           <span className="pro-label">{t('捕碳高手', 'Carbon Capture')}</span>
-          <video
-   
+          <video 
             controls
+            playsInline
+            className="pro-video-main"
+  
             style={{ width: '100%', borderRadius: '4px', marginBottom: '1rem' }}
           >
             {/* 優先讀取 WebM */}
