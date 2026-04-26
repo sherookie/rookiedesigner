@@ -1,37 +1,98 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { useLang } from '../context/LanguageContext'
 
 export default function ReceiptToggle() {
   const wrapRef = useRef(null)
-  // 👉 這裡把 receiptLang 拿出來用
   const { lang, receiptLang, toggleLang } = useLang()
+  const [isOpen, setIsOpen] = useState(false)
+
+  // 處理點擊邏輯
+  const handleClick = () => {
+    const isMobile = window.innerWidth <= 768
+    if (isMobile) {
+      if (!isOpen) {
+        setIsOpen(true) // 手機版第一下：拉出來
+      } else {
+        toggleLang()    // 手機版第二下：翻轉
+        setTimeout(() => setIsOpen(false), 1000) // 翻轉完縮回去
+      }
+    } else {
+      toggleLang() // 電腦版：直接翻轉
+    }
+  }
+
+  // 點擊外側自動縮回
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (isOpen && wrapRef.current && !wrapRef.current.contains(e.target)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('touchstart', handleOutsideClick)
+    return () => document.removeEventListener('touchstart', handleOutsideClick)
+  }, [isOpen])
 
   useGSAP(() => {
-    gsap.from(wrapRef.current, {
-      x: 80, opacity: 0, duration: 1, ease: 'elastic.out(1, 0.5)', delay: 1.2,
+    const mm = gsap.matchMedia()
+
+    mm.add("(min-width: 769px)", () => {
+      // --- 電腦版：確保完全顯示在原本的位置 ---
+      gsap.fromTo(wrapRef.current, 
+        { x: 80, opacity: 0 }, 
+        { x: 0, opacity: 1, duration: 1, ease: 'elastic.out(1, 0.5)', delay: 1.2 }
+      )
+      // 確保電腦版不會被手機的 isOpen 狀態影響
+      gsap.set(wrapRef.current, { x: 0, scale: 1 })
     })
+
+    mm.add("(max-width: 768px)", () => {
+      // --- 手機版：進場並縮排（露出小角） ---
+      gsap.set(wrapRef.current, { scale: 0.8, transformOrigin: 'right center' })
+      
+      gsap.fromTo(wrapRef.current, 
+        { x: 100, opacity: 0 }, 
+        { x: 35, opacity: 1, duration: 1, ease: 'power3.out', delay: 1.2 }
+      )
+    })
+
+    return () => mm.revert()
   }, [])
+
+  // 專門處理手機版「拉出/縮回」的動畫
+  useGSAP(() => {
+    if (window.innerWidth <= 768) {
+      gsap.to(wrapRef.current, {
+        x: isOpen ? -10 : 35, // isOpen 為 true 時往左拉出，false 時往右縮回 50px
+        duration: 0.4,
+        ease: 'back.out(1.2)',
+        overwrite: 'auto'
+      })
+    }
+  }, { dependencies: [isOpen], scope: wrapRef })
 
   return (
     <div className="receipt-wrap" ref={wrapRef} id="receiptWrap">
-      <button className="receipt" onClick={toggleLang} aria-label="Toggle Language">
+      <button className="receipt" onClick={handleClick} aria-label="Toggle Language">
         <div className="receipt-teeth receipt-teeth--top" />
-
-        {/* 👉 卡片的翻轉由 receiptLang 決定，所以會立刻翻！ */}
+        
         <div className={`receipt-body${receiptLang === 'en' ? ' flipped' : ''}`}>
+  
+        {/* 👇 正面：中 ／ EN */}
           <div className="receipt-face receipt-face--front">
-            {/* 文字的發亮狀態一樣由 lang 決定 */}
             <span className={lang === 'zh' ? 'r-active' : 'r-dim'}>中</span>
             <span className="r-slash">／</span>
             <span className={lang === 'en' ? 'r-active' : 'r-dim'}>EN</span>
           </div>
+
+          {/* 👇 背面：改回 中 ／ EN (跟正面一模一樣) */}
           <div className="receipt-face receipt-face--back">
             <span className={lang === 'zh' ? 'r-active' : 'r-dim'}>中</span>
             <span className="r-slash">／</span>
             <span className={lang === 'en' ? 'r-active' : 'r-dim'}>EN</span>
           </div>
+
         </div>
 
         <div className="receipt-teeth receipt-teeth--bottom" />

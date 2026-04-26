@@ -1292,18 +1292,7 @@ body.modal-open {
   background-color: var(--white);
 }
 
-/* 讓經歷列表在手機版自動變成垂直排列 */
-@media (max-width: 768px) {
-  .pro-main { grid-template-columns: 1fr; }
-  .exp-item {
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-  .exp-time {
-    width: auto;
-    margin-bottom: 0.2rem;
-  }
-}
+
 /* ═══ KEYFRAMES ═══ */
 @keyframes revealUp {
   to { opacity: 1; transform: translateY(0); }
@@ -1330,9 +1319,81 @@ body.modal-open {
 }
 
 @media (max-width: 768px) {
+  /* 讓經歷列表在手機版自動變成垂直排列 */
+  .pro-main { grid-template-columns: 1fr; }
+
+  .exp-item {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .exp-time {
+    width: auto;
+    margin-bottom: 0.2rem;
+  }
+/* 讓經歷列表在手機版自動變成垂直排列 */
   :root { --nav-h: 60px; }
 
-  .receipt-wrap { display: none; }
+  .receipt-wrap { 
+    top: 25%;
+    right: 0px; /* 手機版貼齊右側邊緣，方便縮進去 */
+    bottom: auto;
+    left: auto;
+  }
+
+  .receipt-face {
+    position: absolute !important; /* 🌟 關鍵：讓正反面疊在一起 */
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    
+    /* 這裡才是讓文字置中的地方 */
+    display: flex !important;
+    flex-direction: row !important;  
+    justify-content: center;
+    align-items: center;
+    gap: 4px;                  
+    
+    white-space: nowrap !important;  
+    font-size: 14px !important;  
+    line-height: 1 !important;     /* 🌟 關鍵：消除中英文預設的行高差異，防止上下跳動 */
+    
+    /* 確保翻轉時背面不會透過來 */
+    backface-visibility: hidden !important; 
+    -webkit-backface-visibility: hidden !important;
+  }
+
+  /* 3. 處理上下鋸齒 (選用) */
+  .receipt-teeth {
+    width: 100% !important;    /* 嚴格對齊外層的 90px */
+    background-repeat: repeat-x !important; /* 確保鋸齒圖案向右填滿不中斷 */
+    margin: 0 !important;
+  }
+  
+  .receipt-body {
+    width: 100% !important;    
+    height: 32px !important;   
+    position: relative !important; /* 🌟 關鍵：讓正反面以此為基準點 */
+    margin: 0 !important;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 如果收據有投影，手機版可以稍微加深，讓它更有懸浮感 */
+  .receipt {
+    width: 75px !important;    /* 稍微拉寬，讓字塞得下 */
+    height: auto !important;   /* 高度讓裡面的內容自動撐開 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;       /* 強制內部元素置中對齊 */
+    padding: 0 !important;     /* 殺手鐧：清除按鈕預設內距 */
+    border: none !important;
+    background: transparent !important;
+  }
+
+  .receipt-face--back {
+    flex-direction: row-reverse !important; 
+  }
 
   .nav-links { gap: 1.5rem; }
   .nav-link   { font-size: 0.75rem; }
