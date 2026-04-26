@@ -24,7 +24,7 @@ const FOOD_ITEMS = [
   { cls: 'medium mag', speed: 0.32, str: 0.26, style: { right:'16%',top:'72%' }, src: 'images/food/carrot.png',   w: 88  },
   { cls: 'medium mag', speed: 0.24, str: 0.30, style: { left:'56%', top:'4%'  }, src: 'images/food/ice.png',      w: 84  },
   // light + magnetic — tiny, fast, whimsical
-  { cls: 'light mag', speed: 0.56, str: 0.42, style: { left:'26%',  top:'7%'  }, src: 'images/food/berry.png',       w: 52 },
+  { cls: 'light mag', speed: 0.56, str: 0.42, style: { left:'26%',  top:'7%'  }, src: 'images/food/cherry.png',       w: 52 },
   { cls: 'light mag', speed: 0.62, str: 0.48, style: { right:'40%', top:'18%' }, src: 'images/food/pinkberry_a.png', w: 46 },
   { cls: 'light mag', speed: 0.50, str: 0.38, style: { left:'84%',  top:'38%' }, src: 'images/food/pinkberry_b.png', w: 50 },
   { cls: 'light mag', speed: 0.66, str: 0.44, style: { left:'2%',   top:'46%' }, src: 'images/food/pinkberry_c.png', w: 44 },

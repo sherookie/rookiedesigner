@@ -56,7 +56,7 @@ function MultiFlyDetail({ t }) {
         <div className="pro-intro-split">
           <div className="pro-intro-text">
             <p className="pro-intro">
-              {/* ✨ 螢光筆效果：.text-highlight 替換為 <Highlighter> SVG 組件 */}
+              {/* 螢光筆效果：.text-highlight 替換為 <Highlighter> SVG 組件 */}
               <Highlighter color="#f7d04e">
                 <span className="pro-serif-quote">
                   {t('「人人都像蝴蝶般獨特而美麗」', 'Everyone is as unique and beautiful as a butterfly')}
