@@ -1303,7 +1303,6 @@ body.modal-open {
     width: auto;
     margin-bottom: 0.2rem;
   }
-   
 }
 /* ═══ KEYFRAMES ═══ */
 @keyframes revealUp {
@@ -1365,12 +1364,7 @@ body.modal-open {
   .fi.light  img { width: 34px;  }
   .fi.linear img { width: 48px;  }
 
-  .footer-bottom { 
-    flex-direction: column; 
-    gap: 0.5rem; 
-    font-size: 12px; /* 把字級縮小，通常 10px ~ 12px 在手機 footer 很常見 */
-    gap: 8px;        /* 稍微縮小中間的間距 */
-  }
+  .footer-bottom { flex-direction: column; gap: 0.5rem; }
 
   /* Restore cursor on touch devices */
   body { cursor: auto; }
