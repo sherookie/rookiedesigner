@@ -1335,7 +1335,7 @@ body.modal-open {
   :root { --nav-h: 60px; }
 
   .receipt-wrap { 
-    top: 25%;
+    top: 20%;
     right: 0px; /* 手機版貼齊右側邊緣，方便縮進去 */
     bottom: auto;
     left: auto;
@@ -1381,7 +1381,7 @@ body.modal-open {
 
   /* 如果收據有投影，手機版可以稍微加深，讓它更有懸浮感 */
   .receipt {
-    width: 75px !important;    /* 稍微拉寬，讓字塞得下 */
+    width: 90px !important;    /* 稍微拉寬，讓字塞得下 */
     height: auto !important;   /* 高度讓裡面的內容自動撐開 */
     display: flex;
     flex-direction: column;
