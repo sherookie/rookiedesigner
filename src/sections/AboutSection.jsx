@@ -16,7 +16,7 @@ const EXPERIENCES = [
     period: '2023/07 – 2024/07',
     roleZh: '數位行銷實習生 / 富邦人壽',
     roleEn: 'Digital Marketing Intern / Fubon Life',
-    descZh: '負責 LINE@ 官方帳號經營與內容維護；運用動態影像技術（Motion Graphics）將複雜的保險金融知識與遺產稅務資訊轉譯為視覺化行銷媒材，有效提升資訊傳遞效能。',
+    descZh: '負責 LINE@ 官方帳號經營與內容維護；將複雜的保險金融知識與遺產稅務資訊轉譯為視覺化行銷媒材，有效提升資訊傳遞效能。',
     descEn: 'Managed LINE@ official account; translated complex insurance and tax information into visual marketing materials using Motion Graphics to enhance communication efficiency.',
   },
   {

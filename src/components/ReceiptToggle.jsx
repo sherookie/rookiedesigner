@@ -6,7 +6,7 @@ import { useLang } from '../context/LanguageContext'
 export default function ReceiptToggle() {
   const wrapRef = useRef(null)
   const { lang, receiptLang, toggleLang } = useLang()
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(typeof window !== 'undefined' ? window.innerWidth <= 768 : false)
 
   // 處理點擊邏輯
   const handleClick = () => {
@@ -53,7 +53,7 @@ export default function ReceiptToggle() {
       
       gsap.fromTo(wrapRef.current, 
         { x: 100, opacity: 0 }, 
-        { x: 35, opacity: 1, duration: 1, ease: 'power3.out', delay: 1.2 }
+        { x: -10, opacity: 1, duration: 1, ease: 'power3.out', delay: 1.2 }
       )
     })
 
@@ -64,7 +64,7 @@ export default function ReceiptToggle() {
   useGSAP(() => {
     if (window.innerWidth <= 768) {
       gsap.to(wrapRef.current, {
-        x: isOpen ? -10 : 35, // isOpen 為 true 時往左拉出，false 時往右縮回 50px
+        x: isOpen ? -10 : 60, 
         duration: 0.4,
         ease: 'back.out(1.2)',
         overwrite: 'auto'
@@ -79,14 +79,13 @@ export default function ReceiptToggle() {
         
         <div className={`receipt-body${receiptLang === 'en' ? ' flipped' : ''}`}>
   
-        {/* 👇 正面：中 ／ EN */}
           <div className="receipt-face receipt-face--front">
             <span className={lang === 'zh' ? 'r-active' : 'r-dim'}>中</span>
             <span className="r-slash">／</span>
             <span className={lang === 'en' ? 'r-active' : 'r-dim'}>EN</span>
           </div>
 
-          {/* 👇 背面：改回 中 ／ EN (跟正面一模一樣) */}
+         
           <div className="receipt-face receipt-face--back">
             <span className={lang === 'zh' ? 'r-active' : 'r-dim'}>中</span>
             <span className="r-slash">／</span>

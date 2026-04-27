@@ -5,7 +5,7 @@ import { useLang } from '../context/LanguageContext'
 
 export default function FooterSection() {
   const footerRef = useRef(null)
-  const ctaRef = useRef(null) // 👉 給按鈕一個 Ref
+  const ctaRef = useRef(null) 
   const { t } = useLang()
 
   useGSAP(() => {
@@ -58,7 +58,7 @@ export default function FooterSection() {
         <a
           href="mailto:sherrychao0816@gmail.com"
           className="footer-cta mag"
-          ref={ctaRef} // 👉 綁定 Ref
+          ref={ctaRef}
         >
           {t('聯絡我', 'Get in touch')}
         </a>

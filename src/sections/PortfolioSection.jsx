@@ -52,7 +52,7 @@ function ProjectCard({ project, onOpen }) {
     >
       <div className="card-plate" style={{ '--pc': project.plateColor }} />
       <div className="card-img">
-        <img src={project.cardImg} alt={project.cardImgAlt} /*新增這兩行：懶加載與非同步解碼*/loading="lazy" decoding="async"/>
+        <img src={project.cardImg} alt={project.cardImgAlt} loading="lazy" decoding="async"/>
       </div>
       <footer className="card-foot">
         <h3 className="card-name">{t(project.nameZh, project.nameEn)}</h3>

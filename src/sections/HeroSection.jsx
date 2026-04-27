@@ -130,13 +130,13 @@ export default function HeroSection() {
         </p>
         <h1 className="hero-title">
           {/* CSS (.lang-en) toggles display between these two spans */}
-          <span className="hero-zh" lang="zh-TW">趙蔆瑄</span>
-          <span className="hero-en" lang="en">Chao,<br />Ling Hsuan</span>
+          <span className="hero-zh" lang="zh-TW">邏輯之上 <br />美學成形</span>
+          <span className="hero-en" lang="en">Where Logic Meets Aesthetics</span>
         </h1>
         <p className="hero-sub">
-          {t('結合資訊邏輯與圖文美學，', 'Blending logic and aesthetics,')}
+          {t('我是趙蔆瑄，', "I'm Ling-Hsuan")}
           <br />
-          {t('用設計回應生活。', 'responding to life through design.')}
+          {t('結合資訊邏輯與圖文美學，用設計回應生活。', '—Blending logic and aesthetics, responding to life through design.')}
         </p>
       </div>
 
