@@ -123,7 +123,7 @@ export default function AboutSection() {
           <dl className="info-dl">
             <div className="info-row">
               <dt>{t('學校', 'School')}</dt>
-              <dd>{t('國立台灣師範大學', 'NTNU')}</dd>
+              <dd>{t('國立臺灣師範大學', 'NTNU')}</dd>
             </div>
             <div className="info-row">
               <dt>{t('系所', 'Dept.')}</dt>
