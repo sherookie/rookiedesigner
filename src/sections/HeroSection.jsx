@@ -192,12 +192,6 @@ export default function HeroSection() {
             <div className="mc-rule" />
           </header>
 
-          {/* ── 主廚姓名
-              中文：Shippori Mincho（--f-mincho）與收據正面「中」字同字形
-              英文：Syne（--f-syne）與收據正面「EN」同字形
-              名字設計上刻意保留雙語並排，是整張卡的設計核心
-          ── */}
-          {/* ── 主廚姓名 (動態語言切換) ── */}
           <div className="mc-name-block mc-anim">
             <span className="mc-label">CHEF</span>
             <div className="mc-name-row">
