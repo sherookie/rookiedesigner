@@ -30,7 +30,13 @@
 
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+html { 
+  font-size: 16px; 
+  scroll-behavior: smooth; 
+  -webkit-font-smoothing: antialiased; 
+  overflow-x: hidden; 
+  max-width: 100vw;
+}
 img  { display: block; max-width: 100%; }
 ul   { list-style: none; }
 a    { color: inherit; text-decoration: none; }
@@ -42,6 +48,8 @@ body {
   font-family: var(--f-body);
   overflow-x: hidden;
   cursor: none;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* 當 Modal 開啟時，鎖定 body 捲動 */
@@ -1292,6 +1300,41 @@ body.modal-open {
   background-image: none;
   background-color: var(--white);
 }
+/* ═══ NAV LANGUAGE BUTTON ═══ */
+.nav-lang-btn {
+  /* 預設在電腦版隱藏（因為電腦版保留了收據按鈕） */
+  display: none; 
+  background: transparent;
+  border: none;
+  font-family: var(--f-mincho);
+  
+  /* 🌟 1. 將預設基準字體設為「沒被選中」的較小尺寸 */
+  font-size: 0.85rem; 
+  letter-spacing: 0.05em;
+  padding: 8px 0;
+  cursor: none; 
+  white-space: nowrap !important;
+}
+
+.nav-lang-btn span {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-lang-btn .active {
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.nav-lang-btn .dim {
+  color: var(--muted);
+}
+
+.nav-lang-btn .slash {
+  color: var(--muted);
+  font-size: 0.75rem;
+  margin: 0 6px;
+}
 
 
 /* ═══ KEYFRAMES ═══ */
@@ -1336,10 +1379,7 @@ body.modal-open {
   :root { --nav-h: 60px; }
 
   .receipt-wrap { 
-    top: 20%;
-    right: 0px; /* 手機版貼齊右側邊緣，方便縮進去 */
-    bottom: auto;
-    left: auto;
+    display: none !important;
   }
 
   .receipt-face {
@@ -1431,6 +1471,78 @@ body.modal-open {
   /* Restore cursor on touch devices */
   body { cursor: auto; }
   .cursor { display: none; }
+
+  .nav-lang-btn {
+    display: flex !important;
+    flex-direction: row !important; /* 強制水平排列 */
+    align-items: center;
+    flex-shrink: 0;                 /* 絕對不准被左邊的 Logo 擠壓 */
+  }
+
+  .nav {
+    /* 確保手機版導覽列左右兩側有絕對安全的空間，不被螢幕邊緣吃掉 */
+    padding: 0 24px !important; 
+  }
+
+  .menu-card-wrap {
+    width: calc(100vw - 48px);
+  }
+  .menu-card {
+    padding: 24px 20px;
+  }
+  .mc-name-row {
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+  }
+  .mc-slash { display: none; }
+  .mc-seal {
+    width: 76px;
+    height: 76px;
+    top: -16px;
+    right: -8px;
+  }
+  .mc-seal::after { inset: 6px; }
+  .mc-seal span { font-size: 0.36rem; }
+  
+  /* 🌟 核心修改區塊：讓手機版也能保有相連的虛線 🌟 */
+  .mc-rows { 
+    gap: 0.85rem; /* 稍微增加行距，讓手機版比較好閱讀 */
+  }
+  
+  .mc-row { 
+    /* 強制維持左右排列，不准換行！ */
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: baseline !important;
+    width: 100%;
+  }
+
+  .mc-row .mc-label {
+    /* 左邊標籤保持原有大小 */
+    font-size: 0.55rem;
+    white-space: nowrap;
+    flex-shrink: 0 !important;
+  }
+
+  .mc-value { 
+    font-size: clamp(0.6rem, 3vw, 0.75rem) !important; 
+    white-space: nowrap !important; 
+    flex-shrink: 0 !important; /* 🛡️ 護城河：右邊數值絕對不准被擠壓到下一行 */
+    letter-spacing: 0 !important;
+  }
+
+  .mc-leader { 
+    display: block !important;
+    flex-grow: 1 !important;   /* 🧽 海綿：有空間就盡量填滿 */
+    flex-shrink: 1 !important; /* 🧽 海綿：空間不夠就優先犧牲自己縮短 */
+    margin: 0 6px !important; 
+    border-bottom: 1px dotted rgba(26, 26, 24, 0.3) !important;
+    min-width: 10px !important;
+  }
+
+  .site-halftone { opacity: 0.018; }
+
 }
 
 @media (max-width: 480px) {
