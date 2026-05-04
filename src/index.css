@@ -719,14 +719,20 @@ body.modal-open {
   outline-offset: 3px;
 }
 
-/* ═══ FOOTER / CONTACT ═══ */
+/* ═══════════════════════════════════════════════════════════════
+   FOOTER — 主廚簽名版 (Chef's Signature)
+   全黑底 / ✦ 裝飾線 / 情感標語 / 純文字 CTA / 簽名
+   ═══════════════════════════════════════════════════════════════ */
 .footer {
   background: var(--ink);
   color: var(--bg);
-  padding: clamp(80px, 12vw, 140px) clamp(24px, 8vw, 120px) clamp(40px, 5vw, 60px);
+  padding: clamp(96px, 14vw, 160px) clamp(24px, 8vw, 120px) clamp(48px, 5vw, 64px);
   position: relative;
   overflow: hidden;
+  text-align: center;
 }
+
+/* 角落 Riso 圓暈（保留現有氛圍）*/
 .footer::before {
   content: '';
   position: absolute;
@@ -736,6 +742,7 @@ body.modal-open {
   border-radius: 50%;
   opacity: 0.08;
   mix-blend-mode: screen;
+  pointer-events: none;
 }
 .footer::after {
   content: '';
@@ -746,62 +753,167 @@ body.modal-open {
   border-radius: 50%;
   opacity: 0.08;
   mix-blend-mode: screen;
+  pointer-events: none;
 }
 
-.footer-inner { position: relative; z-index: 1; }
+.footer-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2rem, 4vw, 3rem);
+  max-width: 720px;
+  margin: 0 auto;
+}
 
+/* ── 頂部 ✦ 裝飾線 ── */
+.footer-deco {
+  font-family: var(--f-syne);
+  font-size: 0.7rem;
+  letter-spacing: 0.55em;
+  color: var(--orange);
+  opacity: 0.85;
+  padding-right: 0;       /* 抵銷 letter-spacing 造成的右側偏移 */
+  margin-left: 0.55em;    /* 讓視覺上居中 */
+}
+
+/* ── 情感主標 ── */
 .footer-h2 {
   font-family: var(--f-mincho);
-  font-size: clamp(2.2rem, 6vw, 5rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  margin-bottom: 3rem;
+  font-size: clamp(1.8rem, 4.5vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
   text-wrap: balance;
+  color: var(--bg);
+  margin: 0;
 }
 
+/* ── 純文字 CTA：聯絡我 → ── */
 .footer-cta {
-  display: inline-block;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
   font-family: var(--f-mincho);
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
   font-weight: 600;
   color: var(--bg);
-  border: 1.5px solid rgba(250,248,242,0.3);
-  padding: 1rem 2.5rem;
-  border-radius: 100px;
-  letter-spacing: 0.05em;
+  text-decoration: none;
+  letter-spacing: 0.02em;
   position: relative;
-  overflow: hidden;
-  transition:
-    background 0.3s var(--ease-out),
-    border-color 0.3s ease,
-    transform 0.4s var(--ease-spring);
+  padding: 0.4rem 0.2rem 0.5rem;
+  cursor: none;
+  transition: color 0.4s var(--ease-out);
+  /* 取消舊 border + bg fill */
+  border: none;
+  background: transparent;
+  border-radius: 0;
 }
-.footer-cta::before {
+
+/* 橘色底線：從左往右畫出（呼應 nav-link） */
+.footer-cta::after {
   content: '';
   position: absolute;
-  inset: 0;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
   background: var(--orange);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s var(--ease-out);
-  z-index: -1;
-  border-radius: inherit;
+  transition: width 0.4s var(--ease-out);
+  border-radius: 0;
 }
-.footer-cta:hover { border-color: var(--orange); }
-.footer-cta:hover::before { transform: scaleX(1); }
-.footer-cta:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
 
+/* 箭頭跟著 hover 右移 */
+.footer-cta-arrow {
+  display: inline-block;
+  font-family: var(--f-syne);
+  font-weight: 400;
+  transition: transform 0.4s var(--ease-spring);
+}
+
+.footer-cta:hover {
+  color: var(--orange);
+}
+.footer-cta:hover::after {
+  width: 100%;
+}
+.footer-cta:hover .footer-cta-arrow {
+  transform: translateX(8px);
+}
+
+.footer-cta:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+/* 移除舊版 .footer-cta::before（橘色填底動畫）覆寫到無效 */
+.footer-cta::before { display: none; }
+
+/* ── 簽名分隔線 ── */
+.footer-rule {
+  width: clamp(60px, 8vw, 88px);
+  height: 1px;
+  background: rgba(250, 248, 242, 0.22);
+  border: none;
+  margin: 0;
+}
+
+/* ── 底部簽名 ── */
 .footer-bottom {
   display: flex;
-  justify-content: space-between;
-  margin-top: clamp(60px, 8vw, 100px);
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(250,248,242,0.12);
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
   font-family: var(--f-syne);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  color: rgba(250,248,242,0.45);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: rgba(250, 248, 242, 0.42);
+  text-transform: uppercase;
+  /* 抵銷舊有的 margin-top / border / padding */
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+.footer-sign {
+  color: var(--orange);
+  font-size: 0.6rem;
+  letter-spacing: 0;
+  opacity: 0.85;
+}
+.footer-sep {
+  opacity: 0.4;
+}
+.footer-name {
+  font-weight: 600;
+  color: rgba(250, 248, 242, 0.6);
+}
+.footer-copy {
+  font-weight: 400;
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .footer-deco {
+    font-size: 0.6rem;
+    letter-spacing: 0.45em;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.6rem;
+  }
+  .footer-sep { display: none; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .footer-cta::after,
+  .footer-cta-arrow {
+    transition: none !important;
+  }
 }
 
 /* ═══ SECTION TAG (shared) ═══ */
@@ -1465,8 +1577,6 @@ body.modal-open {
   .fi.light  img { width: 34px;  }
   .fi.linear img { width: 48px;  }
 
-  .footer-bottom { flex-direction: column; gap: 0.5rem; }
-
   /* Restore cursor on touch devices */
   body { cursor: auto; }
   .cursor { display: none; }
@@ -1918,30 +2028,6 @@ body.modal-open {
    以下樣式讓 card-plate 在進場時可以有 teal 版 */
 .card-plate.teal-bleed {
   background: var(--teal) !important;
-}
-
-
-/* ══════════════════════════════════════════════════
-   ⑤ Footer — 頂部加上收據撕孔質感
-   在 FooterSection.jsx 的 <footer> 最頂部加：
-   <div className="footer-perf" aria-hidden="true" />
-   ══════════════════════════════════════════════════ */
-.footer-perf {
-  position: absolute;
-  top: -10px;
-  left: 0;
-  right: 0;
-  height: 12px;
-  background-color: var(--ink);   /* 與 footer 背景同色 */
-  -webkit-mask-image: radial-gradient(circle at 50% 0%, transparent 5px, black 5px);
-  mask-image: radial-gradient(circle at 50% 0%, transparent 5px, black 5px);
-  -webkit-mask-size: 14px 12px;
-  mask-size: 14px 12px;
-  -webkit-mask-repeat: repeat-x;
-  mask-repeat: repeat-x;
-}
-.footer {
-  position: relative;             /* 讓 .footer-perf 可以 absolute 定位 */
 }
 
 
@@ -2739,66 +2825,6 @@ body.modal-open {
   line-height: 1;
 }
 
-/* ════════════════════════════════════════════
-   主廚推薦印章 — 黃色方形紙籤
-   設計重點：
-   - 跟 about 的圓形橘印章區隔（這裡是方形黃色）
-   - 撕紙感角點（::before 內框、::after 缺口）
-   - 微旋角度（each card 不同）
-   - hover 時逆轉抹正 + 微放大
-   ════════════════════════════════════════ */
-.card-feature-stamp {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  z-index: 10;
-  background: var(--yellow);
-  color: var(--ink);
-  padding: 10px 14px 9px;
-  font-family: var(--f-syne);
-  font-weight: 800;
-  text-align: center;
-  transform: rotate(var(--stamp-rot, -6deg));
-  box-shadow:
-    0 4px 14px rgba(26, 26, 24, 0.18),
-    0 1px 0 rgba(0, 0, 0, 0.06),
-    inset 0 0 0 1px rgba(26, 26, 24, 0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  line-height: 1.1;
-  pointer-events: none;
-  border-radius: 2px;
-  transition: transform 0.55s var(--ease-spring);
-}
-
-/* 內層 dashed 框（印章感） */
-.card-feature-stamp::before {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  border: 1px dashed rgba(26, 26, 24, 0.4);
-  border-radius: 2px;
-  pointer-events: none;
-}
-
-.card-feature-stamp__star {
-  font-size: 0.95rem;
-  letter-spacing: 0;
-  margin-bottom: 2px;
-  color: var(--ink);
-}
-.card-feature-stamp__txt {
-  font-size: 0.55rem;
-  letter-spacing: 0.18em;
-  white-space: nowrap;
-}
-
-/* hover 時印章呼應卡片浮起 */
-.project-card--menu:hover .card-feature-stamp {
-  transform: rotate(0deg) scale(1.06);
-}
-
 /* ── 微調卡片 footer，讓菜單元素呼吸 ── */
 .project-card--menu .card-foot {
   padding: 1.4rem 1.5rem 1.5rem;
@@ -2810,13 +2836,6 @@ body.modal-open {
 /* ════════════════════════════════════════════
    RESPONSIVE
    ════════════════════════════════════════ */
-@media (max-width: 968px) {
-  .card-feature-stamp {
-    top: 10px;
-    right: 12px;
-    padding: 9px 12px 8px;
-  }
-}
 
 @media (max-width: 768px) {
   .portfolio--menu .port-h2 {
@@ -2824,14 +2843,6 @@ body.modal-open {
   }
   .port-sub {
     font-size: 0.95rem;
-  }
-  .card-feature-stamp__star { font-size: 0.85rem; }
-  .card-feature-stamp__txt {
-    font-size: 0.5rem;
-    letter-spacing: 0.14em;
-  }
-  .card-feature-stamp {
-    padding: 8px 10px 7px;
   }
   .card-meta {
     font-size: 0.55rem;
@@ -2844,21 +2855,11 @@ body.modal-open {
 }
 
 @media (max-width: 480px) {
-  .card-feature-stamp {
-    top: 8px;
-    right: 8px;
-    padding: 7px 9px 6px;
-  }
-  .card-feature-stamp__star { font-size: 0.75rem; margin-bottom: 0; }
-  .card-feature-stamp__txt {
-    font-size: 0.45rem;
-    letter-spacing: 0.12em;
-  }
+  /* (Portfolio 480px 微調保留位置，目前無樣式) */
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .card-feature-stamp,
   .project-card--menu {
     transition: none !important;
   }
