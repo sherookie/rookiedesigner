@@ -81,6 +81,7 @@ export default function AboutSection() {
     })
   }, { scope: sectionRef })
 
+  
   return (
     <section className="about" id="about" ref={sectionRef}>
       <div className="about-grid">

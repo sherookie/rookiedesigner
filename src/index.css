@@ -1449,6 +1449,421 @@ body.modal-open {
 }
 .lang-switching [data-zh],
 .lang-switching [data-en] {
-  opacity: 0;
+  opacity: 0;}
+/* ═══════════════════════════════════════════════════════════════
+   SITE ADDITIONS — 全站一致性 × Menu Card × Riso Print Edition
+   
+   使用方式：
+   把 index.css 最底部原本的「HERO ADDITIONS」區塊整段刪除，
+   貼上這份檔案的全部內容取代它。
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ══════════════════════════════════════════════════
+   ① 全站半調網點 — position: fixed，橫跨所有 section
+   把原本的 .hero-halftone 升級成全域版本。
+   在 App.jsx 加一行 <div className="site-halftone" aria-hidden="true" />
+   放在 <div className="noise-overlay" /> 正上面。
+   ══════════════════════════════════════════════════ */
+.site-halftone {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;        /* noise-overlay(9999) 之下，其他 UI 之上 */
+  pointer-events: none;
+  opacity: 0.028;
+  background-image: radial-gradient(circle, var(--ink) 1px, transparent 1px);
+  background-size: 10px 10px;
 }
 
+
+/* ══════════════════════════════════════════════════
+   ② Hero section — 移除 overflow: hidden
+   讓 Riso 色版（.fi.anchor::after）可以跨越 hero/about 邊界流動
+   ══════════════════════════════════════════════════ */
+.hero {
+  overflow: visible;          /* 覆蓋原本的 overflow: hidden */
+  justify-content: center;    /* 讓菜單卡水平置中 */
+}
+
+/* Riso 色版滲透 — anchor 食物圖的偏移色版（plate/bowl）
+   移除 overflow:hidden 後可以跨越 hero 底部邊界 */
+.fi.anchor {
+  position: relative;
+}
+.fi.anchor::after {
+  content: '';
+  position: absolute;
+  inset: 6px -6px -6px 6px;      /* 偏移 6px = Riso 色版印刷錯位 */
+  background: var(--teal);
+  mix-blend-mode: multiply;
+  opacity: 0.15;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+
+/* ══════════════════════════════════════════════════
+   ③ 菜單卡系統 — Menu Card with Receipt Perf Edges
+   ══════════════════════════════════════════════════ */
+
+/* 最外層容器（含上下撕孔條） */
+.menu-card-wrap {
+  position: relative;
+  z-index: 10;
+  width: clamp(290px, 44vw, 540px);
+  overflow: visible;
+  /* 🔥 頂級技巧：捨棄 border，使用 drop-shadow。
+     它會「完美貼合」上下鋸齒的形狀，產生極其柔和且真實的物理紙張陰影 */
+  filter: drop-shadow(0 16px 40px rgba(26, 26, 24, 0.08)) 
+          drop-shadow(0 4px 12px rgba(26, 26, 24, 0.04));
+  transform: translateZ(0); /* 啟動 GPU 硬體加速，讓懸浮動畫極度滑順 */
+}
+
+/* ── 上下收據撕孔條 ── */
+.mc-perf {
+  width: 100%;
+  height: 10px; /* 📏 嚴格對齊側邊票根的 10px 高度 */
+  background-color: var(--white);   
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 12px 10px; /* 📏 嚴格對齊側邊票根的齒距 */
+  mask-size: 12px 10px;
+}
+
+.mc-perf--top {
+  /* ✨ 抗鋸齒魔法：從 transparent 5px 到 black 5.5px，產生 0.5px 的羽化，邊緣瞬間柔和！ */
+  -webkit-mask-image: radial-gradient(circle at 50% 100%, transparent 5px, black 5.5px);
+  mask-image: radial-gradient(circle at 50% 100%, transparent 5px, black 5.5px);
+  border-radius: 0;
+}
+
+.mc-perf--bottom {
+  -webkit-mask-image: radial-gradient(circle at 50% 0%, transparent 5px, black 5.5px);
+  mask-image: radial-gradient(circle at 50% 0%, transparent 5px, black 5.5px);
+}
+
+/* ── 菜單卡本體（白紙） ── */
+.menu-card {
+  position: relative;
+  background: var(--white);
+  padding: clamp(32px, 4vw, 56px) clamp(28px, 4.5vw, 56px); 
+  text-align: center;
+}
+
+/* 確保卡片內容在紋理層之上 */
+.menu-card > *:not(.mc-paper-grain):not(.mc-seal) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ...（保留原本的 .mc-paper-grain 與 .mc-seal 不變）... */
+/* ══════════════════════════════════════════════════
+   印章 ｜ INK STAMP — 印泥質感（蓋下去，不是貼上去）
+   ══════════════════════════════════════════════════ */
+
+/* 印泥噪點：用 SVG fractalNoise 當 mask，產生油墨不勻的破碎邊緣 */
+:root {
+  --stamp-ink: var(--orange);        /* 比 brand orange 略深沉，模擬乾掉的印泥 */
+  --stamp-ink-bleed: rgba(232, 93, 38, 0.28);
+  --stamp-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 1.45 -0.22  0 0 0 1.45 -0.22  0 0 0 1.45 -0.22  0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.mc-seal {
+  position: absolute !important;
+  top: -22px;
+  right: -22px;
+  width: 92px;
+  height: 92px;
+
+  /* 重置：拿掉舊的白底、虛線、陰影 — 印章不需要這些 */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  display: grid;
+  place-items: center;
+  text-align: center;
+
+  /* 印泥滲入紙纖維的暈染（drop-shadow 在 multiply 之前運算，所以會柔化到紙裡）*/
+  filter:
+    drop-shadow(0 0 0.5px var(--stamp-ink-bleed))
+    drop-shadow(0 0 4px var(--stamp-ink-bleed));
+
+  /* 🔑 關鍵：印泥不是貼在紙上，是吃進纖維裡 */
+  mix-blend-mode: multiply;
+
+  z-index: 50;
+  pointer-events: none;
+  user-select: none;
+  /* rotation 交給 GSAP 控制，CSS 不寫 transform */
+}
+
+/* 外環：印泥圓框 — 用噪點 mask 製造邊緣破碎 */
+.mc-seal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid var(--stamp-ink);
+
+  /* 噪點當 mask：白處保留印泥、黑處讓紙張穿透 → 邊緣自然不勻 */
+  -webkit-mask-image: var(--stamp-noise);
+          mask-image: var(--stamp-noise);
+  -webkit-mask-size: 100% 100%;
+          mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+}
+
+/* 內環：再加一圈內細線，讓印章看起來更像真的官方印鑑 */
+.mc-seal::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--stamp-ink);
+  opacity: 0.55;
+
+  -webkit-mask-image: var(--stamp-noise);
+          mask-image: var(--stamp-noise);
+  -webkit-mask-size: 130% 130%;
+          mask-size: 130% 130%;
+  -webkit-mask-position: 30% 60%;
+          mask-position: 30% 60%;
+}
+
+/* 文字：同樣的印泥色與不勻質感 */
+.mc-seal span {
+  font-family: var(--f-syne);
+  font-size: 0.42rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--stamp-ink);
+  line-height: 1.35;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+
+  /* 文字也吃印泥不均勻，但 mask 放大 + 偏移讓它比邊框更完整可讀 */
+  -webkit-mask-image: var(--stamp-noise);
+          mask-image: var(--stamp-noise);
+  -webkit-mask-size: 220% 220%;
+          mask-size: 220% 220%;
+  -webkit-mask-position: 60% 40%;
+          mask-position: 60% 40%;
+}
+/* ── Header 橫線 ── */
+.mc-header {
+  display: flex;
+  justify-content: center; /* 💡 確保整個區塊在卡片內絕對水平置中 */
+  align-items: center;
+  width: 100%;             /* 💡 讓它撐滿整張白紙的寬度 */
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+.mc-eyebrow {
+  font-family: var(--f-syne);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: var(--muted);
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ── CHEF 姓名區塊 (回歸最愛的字體設計) ── */
+.mc-name-block {
+  margin-bottom: 0.8rem; /* 保留你原本的微小間距 */
+}
+.mc-label {
+  display: block;
+  font-family: var(--f-syne);
+  font-size: 0.55rem;
+  letter-spacing: 0.28em;
+  color: var(--orange);
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+}
+
+.mc-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 因為現在只有一個名字，不需要 flex-wrap 和 gap 了 */
+}
+
+.mc-zh-name {
+  font-family: var(--f-mincho);   
+  font-size: clamp(1.6rem, 4vw, 2.4rem); /* 中文保持優雅的粗襯線 */
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.mc-en-name {
+  font-family: var(--f-syne);     
+  font-weight: 900;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem); /* 英文視覺佔比大，字級稍微縮小一點達成平衡 */
+  letter-spacing: 0.22em; /* 靈魂所在：極致的寬字距 */
+  color: var(--ink);
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+/* ── 點點分隔線 ── */
+.mc-dots {
+  font-family: var(--f-syne);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  margin: 0.5rem 0 1rem;
+}
+
+/* ── 菜色列表（dot leader） ── */
+.mc-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+  margin-bottom: 0;
+}
+.mc-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.mc-row .mc-label {
+  display: inline;
+  margin-bottom: 0;
+  white-space: nowrap;
+  font-size: 0.48rem;
+  letter-spacing: 0.2em;
+}
+.mc-leader {
+  flex: 1;
+  border-bottom: 1px dotted rgba(26, 26, 24, 0.25);
+  margin-bottom: 3px;
+  min-width: 10px;
+}
+.mc-value {
+  font-family: var(--f-mincho);   /* 與收據中文字 同字形 */
+  font-size: clamp(0.76rem, 1.2vw, 0.92rem);
+  color: var(--ink);
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+}
+
+/* ── 卡片 Footer ── */
+.mc-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+.mc-footer-txt {
+  font-family: var(--f-syne);
+  font-size: 0.52rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.mc-footer-star {
+  color: var(--orange);
+  font-size: 0.75rem;
+}
+
+
+/* ══════════════════════════════════════════════════
+   ④ About section — 捲動印刷進場效果
+   補強現有的 GSAP scroll reveal
+   ══════════════════════════════════════════════════ */
+
+/* Section 邊界橫線 — 在 AboutSection.jsx 的 JSX 頂部加入：
+   <div className="sec-divider" aria-hidden="true" />
+   GSAP 會讓它從左往右延伸 */
+.sec-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, var(--orange) 60%, transparent);
+  transform-origin: left center;
+  transform: scaleX(0);           /* GSAP 接管 */
+  margin-bottom: clamp(48px, 8vw, 100px);
+  opacity: 0.35;
+}
+
+/* About 標題：GSAP 可以用 SplitText 或直接 scaleX(0) → 1 */
+.about-h2 {
+  overflow: hidden;               /* 讓 clipPath 效果不超出 */
+}
+
+/* Bento 卡片 Riso hover：進場時短暫出現 teal 色版錯位後收合 */
+.card {
+  --riso-x: 0px;
+  --riso-y: 0px;
+}
+/* 在 PortfolioSection 的 GSAP 中加入：
+   gsap.fromTo(card, { '--riso-x': '6px', '--riso-y': '-4px' }, { '--riso-x': '0px', '--riso-y': '0px', duration: 0.8 })
+   以下樣式讓 card-plate 在進場時可以有 teal 版 */
+.card-plate.teal-bleed {
+  background: var(--teal) !important;
+}
+
+
+/* ══════════════════════════════════════════════════
+   ⑤ Footer — 頂部加上收據撕孔質感
+   在 FooterSection.jsx 的 <footer> 最頂部加：
+   <div className="footer-perf" aria-hidden="true" />
+   ══════════════════════════════════════════════════ */
+.footer-perf {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background-color: var(--ink);   /* 與 footer 背景同色 */
+  -webkit-mask-image: radial-gradient(circle at 50% 0%, transparent 5px, black 5px);
+  mask-image: radial-gradient(circle at 50% 0%, transparent 5px, black 5px);
+  -webkit-mask-size: 14px 12px;
+  mask-size: 14px 12px;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+}
+.footer {
+  position: relative;             /* 讓 .footer-perf 可以 absolute 定位 */
+}
+
+
+/* ══════════════════════════════════════════════════
+   ⑥ Mobile 調整
+   ══════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .menu-card-wrap {
+    width: calc(100vw - 48px);
+  }
+  .menu-card {
+    padding: 24px 20px;
+  }
+  .mc-name-row {
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+  }
+  .mc-slash { display: none; }
+  .mc-seal {
+    width: 76px;
+    height: 76px;
+    top: -16px;
+    right: -8px;
+  }
+  .mc-seal::after { inset: 6px; }
+  .mc-seal span { font-size: 0.36rem; }
+  .mc-value { font-size: 0.8rem; white-space: normal; }
+  .mc-leader { display: none; }
+  .site-halftone { opacity: 0.018; }
+}
+
+@media (max-width: 480px) {
+  .mc-rows { gap: 0.65rem; }
+  .mc-row  { flex-wrap: wrap; }
+}

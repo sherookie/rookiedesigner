@@ -49,6 +49,7 @@ export default function App() {
   return (
     <LanguageProvider>
       {/* ── Fixed overlays ── */}
+      <div className="site-halftone" aria-hidden="true" />
       <div className="noise-overlay" aria-hidden="true" />
       <InkWash />
       <Cursor />
