@@ -271,7 +271,7 @@ const EatBugs_SLIDER_IMAGES = [
   'images/works/eatbugs/bug_G.jpg',
   'images/works/eatbugs/bug_H.jpg',
   'images/works/eatbugs/bug_I.jpg',
-  'images/works/eatbugs/bug_E.png',
+  'images/works/eatbugs/bug_E.jpg',
 ]
 // ── 蟲蟲探險隊 EATBUGS ────────────────────────────────────────
 function EatBugsDetail({ t }) {
@@ -1027,12 +1027,29 @@ export const projects = [
     ],
     Detail: MultiFlyDetail,
   },
+  /*{
+    id: 'eatbugs',
+    category: 'Marketing',
+    wide: true,
+    plateColor: '#f7d04e',
+    cardImg: 'images/works/eatbugs/bug_A.png',
+    cardImgAlt: 'EATBUGS',
+    nameZh: '蟲蟲探險隊',
+    nameEn: 'EATBUGS',
+    subZh: '永續食材 IG 內容行銷',
+    subEn: 'Sustainable Food IG Campaign',
+    chips: [
+      { zh: 'IG 行銷', en: 'IG Marketing' },
+      { zh: '內容企劃', en: 'Content Strategy' },
+    ],
+    Detail: EatBugsDetail,
+  },*/
   {
     id: 'fubon',
     category: 'Design',
     wide: false,
     plateColor: '#50b3f9',
-    cardImg: 'images/works/fubon/fubon_B.png',
+    cardImg: 'images/works/fubon/fubon_A.png',
     cardImgAlt: 'Fubon',
     nameZh: '金融保單教學動畫',
     nameEn: 'Instructional Motion Graphics for Insurance Policies',
@@ -1060,23 +1077,6 @@ export const projects = [
       { zh: '角色設定', en: 'Character Design' },
     ],
     Detail: StorybookDetail,
-  },
-  {
-    id: 'eatbugs',
-    category: 'Marketing',
-    wide: true,
-    plateColor: '#f7d04e',
-    cardImg: 'images/works/eatbugs/bug_A.png',
-    cardImgAlt: 'EATBUGS',
-    nameZh: '蟲蟲探險隊',
-    nameEn: 'EATBUGS',
-    subZh: '永續食材 IG 內容行銷',
-    subEn: 'Sustainable Food IG Campaign',
-    chips: [
-      { zh: 'IG 行銷', en: 'IG Marketing' },
-      { zh: '內容企劃', en: 'Content Strategy' },
-    ],
-    Detail: EatBugsDetail,
   },
   {
     id: 'carbon',
