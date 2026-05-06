@@ -53,7 +53,7 @@ const EXPERIENCES = [
   {
     period: '2023/07 – 2024/07',
     year: '2024',
-    roleZh: '數位行銷實習生 / 富邦人壽',
+    roleZh: '整合行銷實習生 / 富邦人壽',
     roleEn: 'Digital Marketing Intern / Fubon Life',
     descZh: '負責 LINE@ 官方帳號經營與內容維護；將複雜的保險金融知識與遺產稅務資訊轉譯為視覺化行銷媒材，有效提升資訊傳遞效能。',
     descEn: 'Managed LINE@ official account; translated complex insurance and tax information into visual marketing materials using Motion Graphics to enhance communication efficiency.',
@@ -63,8 +63,8 @@ const EXPERIENCES = [
     year: '2023',
     roleZh: '專案助理 / 國立科學工藝博物館',
     roleEn: 'Project Assistant / NSTM',
-    descZh: '參與「海洋教育巡迴推廣計畫」，主導《捕碳高手》數位補充教材之動態視覺開發，並協助專案時程控管與跨單位溝通，落實科普知識數位化。',
-    descEn: "Participated in the Marine Education Project; led the motion design for 'Carbon Capture Expert' digital materials and assisted in project coordination and scheduling.",
+    descZh: '參與《捕碳高手》數位補充教材之動態視覺設計，落實科普知識數位化。',
+    descEn: "Participated in the motion design for 'Carbon Capture Expert' digital materials.",
   },
   {
     period: '2022/11 – 2023/01',
