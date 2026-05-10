@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -109,6 +109,7 @@ export default function AboutSection() {
     const isMobile = window.matchMedia('(max-width: 768px)').matches
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+
     /* ═══════════════════════════════════════════
        ACT 1  Kitchen Stage（Pin + Scroll-scrub）
        ─────────────────────────────────────────── */
@@ -121,6 +122,7 @@ export default function AboutSection() {
         pin: '.kitchen-pin',
         pinSpacing: true,
         anticipatePin: 1,
+        fastScrollEnd: true,
       })
 
       // 標題逐行抬升
@@ -289,6 +291,16 @@ export default function AboutSection() {
       )
     })
   }, { scope: sectionRef })
+
+
+  
+  // 在 App.jsx 或主要 Layout 中加入這段
+  useEffect(() => {
+    // 確保圖片載入後重新計算
+    window.addEventListener('load', () => {
+      ScrollTrigger.refresh();
+    });
+  }, []);
 
   return (
     <section className="about about--redesigned" id="about" ref={sectionRef}>
@@ -477,6 +489,7 @@ export default function AboutSection() {
           ))}
         </div>
       </div>
+
 
     </section>
   )
