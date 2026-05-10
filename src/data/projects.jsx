@@ -2,7 +2,7 @@ import Highlighter from '../components/Highlighter'
 import Slider from '../components/Slider'
 import BookPlayer from '../components/BookPlayer'
 import gsap from 'gsap'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 // 共用：滾入視野時觸發 .is-visible 的小 hook
 function useRevealOnView() {
@@ -30,6 +30,127 @@ function useRevealOnView() {
   }, [])
 
   return containerRef
+}
+
+// ── UX Process 共用子元件 ─────────────────────────────────────────────────
+// 這些元件用於呈現 Persona / Journey Map / Service Blueprint 等 UX 研究產出，
+// 抽出來主要是讓主檔案閱讀邏輯維持「敘事為主」，並方便日後其他專案引用。
+
+/**
+ * Persona 卡片 — 將原本的 PNG 重新詮釋為與站體一致的編輯設計風格
+ * 用 CSS 變數 --persona-accent 控制色帶與重點色
+ */
+function PersonaCard({ accent, traitZh, traitEn, initial, nameZh, nameEn, metaZh, metaEn, goalZh, goalEn, challengeZh, challengeEn, bioZh, bioEn, platforms, influence, t }) {
+  return (
+    <article className="ux-persona-card" style={{ '--persona-accent': accent }}>
+      <span className="ux-persona-trait">{t(traitZh, traitEn)}</span>
+
+      <header className="ux-persona-header">
+        <div className="ux-persona-avatar" aria-hidden="true">
+          <span>{initial}</span>
+        </div>
+        <div className="ux-persona-id">
+          <h4 className="ux-persona-name">{t(nameZh, nameEn)}</h4>
+          <p className="ux-persona-meta">{t(metaZh, metaEn)}</p>
+        </div>
+      </header>
+
+      <dl className="ux-persona-fields">
+        <div>
+          <dt>{t('目標', 'Goal')}</dt>
+          <dd>{t(goalZh, goalEn)}</dd>
+        </div>
+        <div>
+          <dt>{t('挑戰', 'Challenge')}</dt>
+          <dd>{t(challengeZh, challengeEn)}</dd>
+        </div>
+        <div>
+          <dt>{t('自傳', 'Bio')}</dt>
+          <dd>{t(bioZh, bioEn)}</dd>
+        </div>
+      </dl>
+
+      <div className="ux-persona-platforms">
+        <span className="ux-persona-sublabel">{t('使用平台', 'Platforms')}</span>
+        <div className="ux-persona-chips">
+          {platforms.map((p) => (
+            <span key={p}>{p}</span>
+          ))}
+        </div>
+      </div>
+
+      <div className="ux-persona-influence">
+        <span className="ux-persona-sublabel">{t('有影響力的廣告平台', 'Ad Influence')}</span>
+        {influence.map((row) => (
+          <div className="ux-bar" key={row.zh}>
+            <span className="ux-bar-label">{t(row.zh, row.en)}</span>
+            <div className="ux-bar-track" role="progressbar" aria-valuenow={row.value} aria-valuemin="0" aria-valuemax="100">
+              <div className="ux-bar-fill" style={{ width: `${row.value}%` }} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </article>
+  )
+}
+
+/**
+ * Service Blueprint Tabs — 用「展場體驗 / 線上平台」標籤切換對應藍圖
+ * 採 Radix-style 的 role="tablist" 結構維持鍵盤可達性
+ */
+function ServiceBlueprintTabs({ t }) {
+  const [tab, setTab] = useState('offline')
+  const tabs = [
+    { key: 'offline', zh: '展場體驗', en: 'On-site Exhibition', img: 'images/works/butterfly/process/blueprint_offline.png',
+      noteZh: '串連 NFC 小卡、平板拍攝、投影視覺與後台 Midjourney 生成，把「掃描斑紋 → 生成蝴蝶 → 分享 IG Reels」整段體驗拆解成 8 個觸點，明確標出每一步的後台依賴與利害關係人。',
+      noteEn: 'NFC cards, tablet capture, projection, and backstage Midjourney generation — breaking "scan → butterfly → IG Reels share" into 8 touchpoints with clear backstage dependencies and stakeholders.' },
+    { key: 'online',  zh: '線上平台', en: 'Online Platform', img: 'images/works/butterfly/process/blueprint_online.png',
+      noteZh: '把展場體驗延伸到線上：使用者可瀏覽他人蝴蝶、上傳 NFT、分享至社群並導流至基金會捐款，補上展期之外的長尾效益。',
+      noteEn: 'Extends the on-site experience online: users browse others\' butterflies, upload NFTs, share to social, and route donations to the foundation — extending impact beyond the exhibition window.' },
+  ]
+  const active = tabs.find((tb) => tb.key === tab)
+
+  return (
+    <div className="ux-blueprint">
+      <div className="ux-blueprint-tabs" role="tablist" aria-label={t('服務藍圖切換', 'Blueprint switch')}>
+        {tabs.map((tb) => (
+          <button
+            key={tb.key}
+            role="tab"
+            type="button"
+            aria-selected={tab === tb.key}
+            aria-controls={`bp-panel-${tb.key}`}
+            id={`bp-tab-${tb.key}`}
+            tabIndex={tab === tb.key ? 0 : -1}
+            className={`ux-blueprint-tab ${tab === tb.key ? 'is-active' : ''}`}
+            onClick={() => setTab(tb.key)}
+          >
+            {t(tb.zh, tb.en)}
+          </button>
+        ))}
+        <span
+          className="ux-blueprint-indicator"
+          aria-hidden="true"
+          style={{ transform: tab === 'offline' ? 'translateX(0%)' : 'translateX(100%)' }}
+        />
+      </div>
+
+      <div
+        role="tabpanel"
+        id={`bp-panel-${active.key}`}
+        aria-labelledby={`bp-tab-${active.key}`}
+        className="ux-blueprint-panel"
+        key={active.key /* 換 tab 時重掛載觸發 fade */}
+      >
+        <figure className="ux-process-figure ux-process-figure--scroll">
+          <img src={active.img} alt={t(active.zh, active.en)} loading="lazy" />
+          <figcaption className="ux-process-caption">
+            {t(active.noteZh, active.noteEn)}
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  )
 }
 
 // ── MULTiFLY ──────────────────────────────────────────────────────────────
@@ -168,6 +289,144 @@ function MultiFlyDetail({ t }) {
           </p>
         </div>
       </div>
+
+        {/* ── UX 設計流程 · Discover ─────────────────────────────────── */}
+        <div className="pro-vision-section">
+          <div className="pro-section">
+            <span className="pro-label">{t('使用者研究 · Discover', 'User Research · Discover')}</span>
+            <p className="pro-body-emphasize">
+              {t(
+                '專案以田野調查與問卷為起點，建立兩位代表性 Persona──分別代表「明顯斑紋」與「無明顯斑紋」兩種使用情境，幫助團隊釐清這個議題對不同族群的意義與情緒落差。',
+                'The project starts with field research and surveys — building two representative personas covering "visible marks" and "no visible marks" use cases, helping the team locate the emotional gap each group experiences with this topic.'
+              )}
+            </p>
+          </div>
+
+          <div className="ux-personas">
+            <PersonaCard
+              t={t}
+              accent="#7c3aed"
+              traitZh="擁有粉紅色塊的皮膚花紋"
+              traitEn="Has pinkish skin patches"
+              initial="櫻"
+              nameZh="櫻花"
+              nameEn="Sakura"
+              metaZh="20 歲｜女生｜學生"
+              metaEn="Age 20 · Female · Student"
+              goalZh="不想大家關注我的斑紋，但又想要有自信地展現出來。"
+              goalEn="Don't want others fixated on my marks — but I still want to show up with confidence."
+              challengeZh="想透過 App 找到自信，並透過 App 找到同溫層、了解大家如何看待自己的斑紋。"
+              challengeEn="Hoping the app builds confidence and connects me with people who get how marks are perceived."
+              bioZh="雖然不是對斑紋超沒自信，但被特別關注時還是會有點害羞、有點在意。"
+              bioEn="Not super insecure about my marks — but when they're singled out, I do mind a bit."
+              platforms={['IG', 'DCARD', 'GOOGLE']}
+              influence={[
+                { zh: '社群媒體', en: 'Social', value: 88 },
+                { zh: '電視廣告', en: 'TV', value: 35 },
+                { zh: '新媒體廣告傳播', en: 'New Media', value: 72 },
+              ]}
+            />
+
+            <PersonaCard
+              t={t}
+              accent="#0ea5e9"
+              traitZh="無明顯花紋・臉上有些許雀斑"
+              traitEn="No prominent marks · A few freckles"
+              initial="斑"
+              nameZh="斑斑"
+              nameEn="Banban"
+              metaZh="36 歲｜女生｜上班族"
+              metaEn="Age 36 · Female · Office Worker"
+              goalZh="想透過 App 更了解自己身體上的花紋，並理解大家對自己斑紋的想法、看見斑紋透過 AI 結合後的變化。"
+              goalEn="Want to understand my own marks better through the app, hear how others view their marks, and see how AI reframes them."
+              challengeZh="從 App 中體會到擁有斑紋者的想法，並透過蝴蝶的轉化了解斑紋之美。"
+              challengeEn="Empathising with people who have marks, and discovering the beauty of marks through butterfly transformation."
+              bioZh="沒有什麼特殊斑紋，但臉上有許多雀斑──朋友覺得可愛、有時化妝還會加幾顆，所以對花紋蠻有自信。"
+              bioEn="No unusual marks — just freckles. Friends find them cute, I sometimes draw extras when doing makeup, so I'm fairly confident about them."
+              platforms={['IG', 'FB', 'LINE', 'GOOGLE']}
+              influence={[
+                { zh: '社群媒體', en: 'Social', value: 65 },
+                { zh: '電視廣告', en: 'TV', value: 28 },
+                { zh: '新媒體廣告傳播', en: 'New Media', value: 80 },
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* ── UX 設計流程 · Define ───────────────────────────────────── */}
+        <div className="pro-vision-section">
+          <div className="pro-section">
+            <span className="pro-label">{t('使用者旅程地圖 · Define', 'User Journey Map · Define')}</span>
+            <p className="pro-body-emphasize">
+              {t(
+                '繪製從「注意 → 搜尋 → 感興趣 → 使用 → 推薦」的五個階段，將觸點、行動、思考與情感曲線疊在同一條時間軸上，讓團隊一眼看到使用者在哪一段最容易斷點，並把「現狀課題」對應出具體的「改善提案」。',
+                'Mapping five stages from awareness to advocacy, overlaying touchpoints, actions, thoughts and the emotional curve on a single timeline — making drop-off points obvious and turning "current issues" into concrete "design moves".'
+              )}
+            </p>
+          </div>
+
+          <figure className="ux-process-figure ux-process-figure--scroll">
+            <img
+              src="images/works/butterfly/process/journey_map.png"
+              alt={t('使用者旅程地圖', 'User Journey Map')}
+              loading="lazy"
+            />
+          </figure>
+
+          <div className="ux-insight-grid" role="list">
+            <article className="ux-insight-card" role="listitem">
+              <span className="ux-insight-tag">Insight 01</span>
+              <h5 className="ux-insight-title">
+                {t('無斑紋族群佔大多數', 'Most users have no visible marks')}
+              </h5>
+              <p className="ux-insight-desc">
+                {t(
+                  '把題目重寫為「人人皆能回答」，鼓勵大家找出身上再小的痣，讓自己被納入這個議題。',
+                  'Rewrote prompts so anyone can answer — even tiny moles count, pulling more people into the conversation.'
+                )}
+              </p>
+            </article>
+            <article className="ux-insight-card" role="listitem">
+              <span className="ux-insight-tag">Insight 02</span>
+              <h5 className="ux-insight-title">
+                {t('有興趣的客群多為女性', 'Women are the most engaged segment')}
+              </h5>
+              <p className="ux-insight-desc">
+                {t(
+                  '以女性為核心 TA 走向，找出族群痛點並反映在文案語氣、視覺色調與動態節奏上。',
+                  'Centred women as the primary TA — surfacing their pain points across copy tone, palette, and motion pacing.'
+                )}
+              </p>
+            </article>
+            <article className="ux-insight-card" role="listitem">
+              <span className="ux-insight-tag">Insight 03</span>
+              <h5 className="ux-insight-title">
+                {t('如何提升捐款意願', 'How to lift donation intent')}
+              </h5>
+              <p className="ux-insight-desc">
+                {t(
+                  '尋找具公信力的捐款支持者（基金會、協會），並讓使用者明確看到捐款後的計畫與方向，建立信任。',
+                  'Partnered with credible foundations and made post-donation plans visible — building trust at the moment of giving.'
+                )}
+              </p>
+            </article>
+          </div>
+        </div>
+
+        {/* ── UX 設計流程 · Deliver ──────────────────────────────────── */}
+        <div className="pro-vision-section">
+          <div className="pro-section">
+            <span className="pro-label">{t('服務藍圖 · Deliver', 'Service Blueprint · Deliver')}</span>
+            <p className="pro-body-emphasize">
+              {t(
+                '把研究洞察落地成跨場域的服務系統。展場與線上兩份藍圖，分別把「使用者動作 / 接觸點 / 後台動作 / 利害關係人」四條泳道對齊到同一條時間軸上，明確標出每一個觸點背後所需的後台依賴與合作對象，讓開發、設計、合作基金會三方有共同的施工地圖。',
+                'Translating insights into a cross-channel service system. The on-site and online blueprints align four swim-lanes — user action / touchpoint / backstage / stakeholder — on a single timeline, surfacing the dependencies behind every touchpoint so dev, design, and the foundation share one build map.'
+              )}
+            </p>
+          </div>
+
+          <ServiceBlueprintTabs t={t} />
+        </div>
 
         <div>
           <span className="pro-label">{t('展場實錄', 'Exhibition Gallery')}</span>
@@ -1023,7 +1282,7 @@ export const projects = [
     subEn: 'Skin Diversity x AI Interactive',
     chips: [
       { zh: '互動裝置', en: 'Installation' },
-      { zh: 'AI生成',  en: 'AI Prompt' },
+      { zh: 'UI/UX',  en: 'UI/UX' },
     ],
     Detail: MultiFlyDetail,
   },
