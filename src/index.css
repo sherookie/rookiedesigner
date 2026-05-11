@@ -1255,7 +1255,7 @@ body.cursor-big .cursor {
   background: var(--cream);
   padding: 0.5rem 1rem;
   border-radius: 100px;
-  cursor: pointer;
+  cursor: none;
   transition: background 0.3s ease, color 0.3s ease, transform 0.4s var(--ease-spring);
 }
 
@@ -1263,6 +1263,7 @@ body.cursor-big .cursor {
   background: var(--orange);
   color: var(--bg);
   transform: scale(1.05);
+  cursor: none;
 }
 
 .pro-modal-scroll-area {
