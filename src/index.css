@@ -258,6 +258,7 @@ body.cursor-big .cursor {
   display: flex;
   gap: 2.5rem;
   align-items: center;
+  cursor: none;
 }
 .nav-link {
   font-family: var(--f-syne);
@@ -268,6 +269,7 @@ body.cursor-big .cursor {
   position: relative;
   padding-bottom: 2px;
   transition: color 0.2s ease;
+  cursor: none;
 }
 .nav-link::after {
   content: '';
@@ -276,9 +278,10 @@ body.cursor-big .cursor {
   width: 0; height: 1px;
   background: var(--orange);
   transition: width 0.3s var(--ease-out);
+  cursor: none;
 }
-.nav-link:hover::after { width: 100%; }
-.nav-link:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 2px; }
+.nav-link:hover::after { width: 100%; cursor: none;}
+.nav-link:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 2px; cursor: none;}
 
 /* ═══ HERO SECTION ═══ */
 .hero {
@@ -1336,6 +1339,7 @@ body.cursor-big .cursor {
   align-items: center;
   padding: 3rem 0;        /* 讓它跟上面的 Slider 保持一點高級的留白 */
   width: 100%;
+   cursor: none;
 }
 
 /* 確保按鈕本身是 inline-block，這樣磁吸效果才不會歪掉 */
@@ -1355,6 +1359,7 @@ body.cursor-big .cursor {
   text-decoration: none;
   /* 加入各種過場動畫 */
   transition: color 0.3s ease, border-color 0.3s ease, transform 0.4s var(--ease-spring);
+   cursor: none;
 }
 
 /* 橘色背景 (初始隱藏在左側) */
@@ -1374,10 +1379,12 @@ body.cursor-big .cursor {
 .pro-launch-btn:hover {
   border-color: var(--orange);
   color: var(--bg); /* 背景變橘色時，文字變成米黃色才看得清楚 */
+  cursor: none;
 }
 
 .pro-launch-btn:hover::before {
   transform: scaleX(1); /* 橘色背景展開 */
+   cursor: none;
 }
 
 .receipt-teeth {
@@ -3555,6 +3562,7 @@ body.cursor-big .cursor {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  
 }
 
 .ux-blueprint-tabs {
@@ -3567,6 +3575,7 @@ body.cursor-big .cursor {
   align-self: flex-start;
   width: min(100%, 360px);
   isolation: isolate;
+ 
 }
 
 .ux-blueprint-tab {
@@ -3580,7 +3589,7 @@ body.cursor-big .cursor {
   font-size: 0.82rem;
   font-weight: 500;
   color: var(--muted);
-  cursor: pointer;
+  cursor: none;
   transition: color 0.4s var(--ease-out);
   white-space: nowrap;
 }
