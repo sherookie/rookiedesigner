@@ -1035,6 +1035,7 @@ body.cursor-big .cursor {
 /* 展場滑塊組件 */
 .pro-gallery-slider {
   margin: 1rem 0;
+  cursor: none;
 }
 .slider-label {
   font-family: var(--f-syne);
@@ -1043,6 +1044,7 @@ body.cursor-big .cursor {
   text-transform: uppercase;
   margin-bottom: 1rem;
   letter-spacing: 0.15em;
+  cursor: none;
 }
 
 .slider-nav {
@@ -1062,20 +1064,23 @@ body.cursor-big .cursor {
   justify-content: center;
   opacity: 0;
   transition: all 0.3s var(--ease-out);
+  cursor: none;
 }
 
 .slider-main-wrap:hover .slider-nav {
   opacity: 1;
+  cursor: none;
 }
 
 .slider-nav:hover {
   background: var(--orange);
   color: var(--white);
   transform: translateY(-50%) scale(1.1);
+  cursor: none;
 }
 
-.slider-nav.prev { left: 1rem; }
-.slider-nav.next { right: 1rem; }
+.slider-nav.prev { left: 1rem;cursor: none; }
+.slider-nav.next { right: 1rem; cursor: none;}
 .slider-main-wrap {
   position: relative;
   width: 100%;
@@ -1085,12 +1090,14 @@ body.cursor-big .cursor {
   overflow: hidden;
   margin-bottom: 1rem;
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  cursor: none;
 }
 .slider-main-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: opacity 0.4s var(--ease-out);
+  cursor: none;
 }
 .slider-thumbs {
   display: flex;
@@ -1098,13 +1105,14 @@ body.cursor-big .cursor {
   overflow-x: auto;
   padding-bottom: 12px; /* 增加一點底部間距 */
   scrollbar-width: none;
-  cursor: grab; /* 提示使用者可以抓取 */
+  cursor: none; /* 提示使用者可以抓取 */
   user-select: none; /* 防止拖動時選中文字/圖片 */
   -webkit-overflow-scrolling: touch; /* 保持手機版流暢捲動 */
+  cursor: none;
 }
 .slider-thumbs:active {
-  cursor: grabbing;}
-.slider-thumbs::-webkit-scrollbar { display: none; }
+  cursor: none;}
+.slider-thumbs::-webkit-scrollbar { display: none; cursor: none;}
 .thumb {
   width: 100px;
   aspect-ratio: 16 / 9;
@@ -1117,16 +1125,19 @@ body.cursor-big .cursor {
   border: 2px solid transparent;
   pointer-events: auto; /* 確保點擊縮圖切換功能正常 */
   -webkit-user-drag: none; /* 防止圖片被抓起來丟掉 */
+  cursor: none;
 }
 .thumb.active {
   opacity: 1;
   filter: grayscale(0);
   border-color: var(--orange);
   transform: translateY(-2px);
+  cursor: none;
 }
 .thumb:hover {
   opacity: 0.8;
   filter: grayscale(0.5);
+  cursor: none;
 }
 
 .pro-block {
