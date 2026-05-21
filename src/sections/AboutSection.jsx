@@ -374,14 +374,14 @@ export default function AboutSection() {
 
           {/* ── 右：價值主張 ── */}
           <div className="value-prop">
-            <span className="sec-tag">{t('關於 / 主廚台', 'About / The Kitchen')}</span>
+            <span className="sec-tag">{t('主廚台 / ', 'The Kitchen / ')}</span>
 
             <h2 className="kitchen-headline">
+            <span className="line"><span className="line-inner"> 
+            {t('在這裡，', 'Here is')}
+            </span></span>
               <span className="line"><span className="line-inner">
-                {t('在這份菜單上，', 'On this menu,')}
-              </span></span>
-              <span className="line"><span className="line-inner">
-                {t('我能為你帶來 ──', "here's what I bring ──")}
+                {t('我能為你帶來 ──', "what I bring for you──")}
               </span></span>
             </h2>
 
@@ -413,15 +413,15 @@ export default function AboutSection() {
           ════════════════════════════════════════ */}
       <div className="cooking-log">
         <header className="log-header">
-          <span className="sec-tag">{t('經歷 / 料理筆記', 'Experience / Cooking Log')}</span>
+          <span className="sec-tag">{t('料理筆記 / ', 'Cooking Log / ')}</span>
           <h2 className="log-title">
-            {t('主廚的料理日誌', "The chef's cooking log")}
+            {t('經歷', "Experience")}
           </h2>
         </header>
 
         {/* 食材（技能）標籤帶 */}
         <div className="ingredient-tags">
-          <span className="tags-label">{t('專業食材', 'Specialties')}</span>
+          <span className="tags-label">{t('專業', 'Specialties')}</span>
           {TAGS.map(tag => (
             <span key={tag.en} className="ingredient-tag">{t(tag.zh, tag.en)}</span>
           ))}
@@ -464,9 +464,9 @@ export default function AboutSection() {
           ════════════════════════════════════════ */}
       <div className="stamp-card-section">
         <header className="stamp-header">
-          <span className="sec-tag">{t('獲獎與參展', 'Honors & Exhibitions')}</span>
+          <span className="sec-tag">{t('評鑑紀錄', 'Reviews on this menu')}</span>
           <h2 className="stamp-title">
-            {t('這份菜單的評鑑紀錄', 'Reviews on this menu')}
+            {t('獲獎與參展', 'Honors & Exhibitions')}
           </h2>
         </header>
 

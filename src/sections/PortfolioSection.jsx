@@ -168,10 +168,10 @@ export default function PortfolioSection() {
       {/* ── 三段式標題 ── */}
       <header className="port-header port-header--menu">
         <span className="sec-tag port-eyebrow">
-          {t('作品 / 精選', 'Work / Selected')}
+          {t('主廚精選 /', "Chef's Selection /")}
         </span>
         <h2 className="port-h2">
-          {t('主廚精選', "Chef's Selection")}
+          {t('作品', 'Work')}
         </h2>
       </header>
 
